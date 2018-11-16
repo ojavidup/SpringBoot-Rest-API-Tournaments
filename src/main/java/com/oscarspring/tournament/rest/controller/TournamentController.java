@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oscarspring.tournament.rest.entity.Tournament;
-import com.oscarspring.tournament.rest.exception.TournamentNotFoundException;
 import com.oscarspring.tournament.rest.service.TournamentService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -39,14 +38,6 @@ public class TournamentController {
 	@GetMapping("/tournaments/{tournamentId}")
 	@PreAuthorize("hasAuthority('Visitor')")
 	public ResponseEntity<Tournament> getTournamentById(@PathVariable("tournamentId") long tournamentId){
-		
-		Tournament tempTournament = tournamentService.getTournamentById(tournamentId);
-		
-		if (tempTournament == null) {
-			
-			throw new TournamentNotFoundException("Customer id not found - " +tournamentId);
-			
-		}
 		
 		return new ResponseEntity<Tournament>(tournamentService.getTournamentById(tournamentId), HttpStatus.OK);
 	}
